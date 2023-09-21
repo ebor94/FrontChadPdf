@@ -22,7 +22,7 @@ function App() {
 
     setMessage("");
 
-    fetch("http://lilix.ceramicaitalia.com:3000/sendMessage", {
+    fetch("https://lilix.ceramicaitalia.com:3000/sendMessage", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
