@@ -47,7 +47,7 @@ function App() {
 
   return (
     <main>
-      <h1>Chat with tibIA</h1>
+      <h1>ITALBOT</h1>
 
       <section>
         {chats && chats.length
@@ -56,7 +56,7 @@ function App() {
                 <span>
                   <b>{chat.role}</b>
                 </span>
-                <span>TIB-IA answer: </span>
+                <span>answer: </span>
                 <span>{chat.content}</span>
               </p>
             ))
