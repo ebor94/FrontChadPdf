@@ -37,7 +37,8 @@ function App() {
       .then(async (data) => {
         setMessage("");
         msgs.push(data);
-        let losiento = data.content.search("Lo siento, no pude encontrar una respuesta");
+        console.log(data)
+        let losiento = data.content.search("Lo siento,");
         if(losiento !== 0){
           console.log("chat 1")
           setChats(msgs);
