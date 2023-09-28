@@ -28,21 +28,70 @@ function App() {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        "sourceId": "src_vfQWsRlkicX5fkIHFbKmA",
+        
+        "sourceId": "src_PE7O2TQYieZuuaizWQ2GG",
          "messages": chats
     }),
     })
       .then((response) => response.json())
-      .then((data) => {
+      .then(async (data) => {
         setMessage("");
         msgs.push(data);
+        let losiento = data.content.search("Lo siento, no pude encontrar una respuesta");
+        if(losiento !== 0){
+          console.log("chat 1")
+          setChats(msgs);
+          setIsTyping(false);
+        }else{
+          console.log("chat 2")
+          await chatPact(message);  
+        }
+         
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+      
+        
+  };
+
+  const chatPact = async (message) => {
+    console.log("ingreso al chat pacto")
+
+    while(chats.length > 0){
+      chats.pop(); 
+    }
+    if (!message) return;
+    setIsTyping(true);
+    scrollTo(0, 1e10);
+    let msgs = chats;
+    msgs.push({ role: "user", content: message });
+    setChats(msgs);
+
+
+    fetch("https://lilix.ceramicaitalia.com:3000/sendMessage", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        
+        "sourceId": "src_aIxlNT4wppNZ4BShZlUHB",
+         "messages": chats
+    }),
+    })
+      .then((response) => response.json())
+      .then(async (data) => {
+        msgs.push(data);
+        //console.log(data)
         setChats(msgs);
-        setIsTyping(false);
+         setIsTyping(false);
         scrollTo(0, 1e10);
       })
       .catch((error) => {
         console.log(error);
       });
+
   };
 
   return (
@@ -50,8 +99,7 @@ function App() {
       <h1>ITALBOT</h1>
 
       <section>
-        {chats && chats.length
-          ? chats.map((chat, index) => (
+        {chats.map((chat, index) => (
               <p key={index} className={chat.role === "user" ? "user_msg" : ""}>
                 <span>
                   <b>{chat.role}</b>
@@ -60,7 +108,8 @@ function App() {
                 <span>{chat.content}</span>
               </p>
             ))
-          : ""}
+          }
+          
       </section>
 
       <div className={isTyping ? "" : "hide"}>
